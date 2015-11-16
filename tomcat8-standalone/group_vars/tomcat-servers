@@ -1,0 +1,9 @@
+# Here are variables related to the Tomcat installation
+
+http_shutdown_port: 8005
+http_port: 8080
+https_port: 8443
+
+# tomcat file vars
+src_file: tomcat8.tar.gz
+dest_dir: /usr/local/
