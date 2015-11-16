@@ -1,0 +1,10 @@
+- hosts: tomcat-servers
+  sudo: yes
+  sudo_user: root
+  tasks:
+  - name: install supervisor
+    shell: sudo easy_install supervisor
+  - name: setup config file
+    shell: /usr/bin/echo_supervisord_conf > /etc/supervisord.conf
+  - name: setup service
+    copy: src=files/supervisord dest=/etc/init.d/ mode=0755
