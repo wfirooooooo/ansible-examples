@@ -1,0 +1,25 @@
+- hosts: tomcat-servers
+  sudo: yes
+  sudo_user: root
+  vars:
+    apr_file: files/apr-1.5.2.tar.gz 
+    aprutil_file: files/apr-util-1.5.4.tar.gz
+    dest_dir: /usr/local/src/
+  tasks:
+  - name: copy and untar apr
+    unarchive: src={{apr_file}} dest={{dest_dir}} owner=root
+  - name: copy and untar aprutil
+    unarchive: src={{aprutil_file}} dest={{dest_dir}} owner=root
+  - name: install apr and apr-util
+    script: files/apr.sh
+  - name: clear old env
+    lineinfile: dest=/etc/profile regexp='apr/lib' state=absent
+  - name: set env
+    lineinfile:
+      dest=/etc/profile
+      insertafter="{{item.position}}"
+      line="{{item.value}}"
+      state=present
+    with_items:
+    - {position: EOF, value: "\n"}
+    - {position: EOF, value: "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/apr/lib"}
