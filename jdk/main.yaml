@@ -1,0 +1,22 @@
+- hosts: tomcat-servers
+  sudo: yes
+  sudo_user: root
+  vars:
+    src_file: files/jdk-7u79-linux-x64.tar.gz
+    dest_dir: /usr/local/
+  tasks:
+  - name: copy and untar
+    unarchive: src={{src_file}} dest={{dest_dir}} owner=root
+  - name: clear old env
+    lineinfile: dest=/etc/profile regexp='JAVA_HOME' state=absent
+  - name: set env
+    lineinfile:
+      dest=/etc/profile
+      insertafter="{{item.position}}"
+      line="{{item.value}}"
+      state=present
+    with_items:
+    - {position: EOF, value: "\n"}
+    - {position: EOF, value: "export JAVA_HOME=/usr/local/jdk1.7.0_79"}
+    - {position: EOF, value: "export PATH=$JAVA_HOME/bin:$PATH"}
+    - {position: EOF, value: "export CLASSPATH=.:$JAVA_HOME/lib"}
