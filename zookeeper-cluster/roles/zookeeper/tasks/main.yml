@@ -1,5 +1,5 @@
 - name: create zookeeper user
-  user: name="{{zkuser}}" shell=/sbin/nologin createhome=yes
+  user: name="{{zkuser}}" createhome=yes
 
 - name: install zookeeper packages
   unarchive: src={{src_file}} dest={{dest_dir}} owner={{zkuser}} group={{zkuser}}
