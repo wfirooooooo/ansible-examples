@@ -1,0 +1,4 @@
+[zookeeper_hosts]
+node2 zookeeper_myid=1
+node3 zookeeper_myid=2
+node4 zookeeper_myid=3

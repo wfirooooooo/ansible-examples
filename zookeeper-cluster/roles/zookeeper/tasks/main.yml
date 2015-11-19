@@ -1,0 +1,17 @@
+- name: create zookeeper user
+  user: name="{{zkuser}}" shell=/sbin/nologin createhome=yes
+
+- name: install zookeeper packages
+  unarchive: src={{src_file}} dest={{dest_dir}} owner=root
+
+- name: change the dir name
+  shell: rm -rf /usr/local/zookeeper;mv /usr/local/zookeeper-3.4.6 /usr/local/zookeeper
+
+- name: copy the config
+  template: dest=/usr/local/zookeeper/conf/zoo.cfg src=zoo.cfg.j2 mode=0644
+
+- name: create the data dir
+  file: path=/usr/local/zookeeper/data owner={{zkuser}} mode=0755 state=directory
+
+- name: set the myid
+  template: dest=/usr/local/zookeeper/data/myid src=myid.j2 mode=0644 owner={{zkuser}}

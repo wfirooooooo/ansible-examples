@@ -1,0 +1,6 @@
+- hosts: zookeeper_hosts
+  remote_user: root
+  
+  roles:
+    - role: zookeeper
+      zookeeper_servers: '{{ groups["zookeeper_hosts"] }}'
