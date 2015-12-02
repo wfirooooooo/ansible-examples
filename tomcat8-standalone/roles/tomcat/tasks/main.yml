@@ -19,7 +19,7 @@
   notify: restart tomcat
 
 - name: Install Tomcat init script
-  copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat8 mode=0755
+  template: src=tomcat-initscript.sh dest=/etc/init.d/tomcat8 mode=0755
 
 - name: Start Tomcat
   service: name=tomcat8 state=started enabled=yes
