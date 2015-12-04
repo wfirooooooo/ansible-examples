@@ -1,0 +1,32 @@
+- hosts: redis-hosts
+  sudo: yes
+  sudo_user: root
+  pre_tasks:
+  - name: yum install redis Dependency
+    yum: name=tcl state=latest
+  tasks:
+  - name: add redis user
+    user: name={{redis_user}}
+  - name: copy and untar redis
+    unarchive: src={{redis_file}} dest={{dest_dir}} owner=root
+    tags:
+      - copy
+  - name: install redis
+    script: files/redis.sh
+    tags:
+      - install
+  - name: redis config file
+    template: src=template/redis.conf.j2 dest=/etc/redis/{{redis_port}}.conf
+  - name: chown redis dir
+    file: path={{item.path}} owner={{redis_user}} group={{redis_user}} state=directory
+    with_items:
+        - { path: /var/lib/redis }
+        - { path: /etc/redis }
+        - { path: /var/log/redis }
+  - name: set init script
+    template: src=template/redis-initscript.sh.j2 dest=/etc/init.d/redis_{{redis_port}} owner=root group=root mode=0755
+    notify: restart redis
+    tags:
+      - init
+  - name: restart redis
+    service: name=redis_{{redis_port}} state=restarted

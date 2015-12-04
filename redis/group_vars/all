@@ -1,0 +1,9 @@
+#redis port
+redis_port: 6379
+
+#redis user
+redis_user: redis
+
+redis_file: files/redis-2.8.23.tar.gz
+dest_dir: /usr/local/src/
+
