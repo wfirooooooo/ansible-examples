@@ -1,4 +1,4 @@
-- hosts: tomcat-servers
+- hosts: servers
   sudo: yes
   sudo_user: root
   tasks:

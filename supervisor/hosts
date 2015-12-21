@@ -1,5 +1,2 @@
-[tomcat-servers]
-node2
-node3
-node4
-node5
+[servers]
+node
