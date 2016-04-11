@@ -1,0 +1,22 @@
+- hosts: openresty
+  sudo: yes
+  sudo_user: root
+  pre_tasks:
+  - name: yum install nginx Dependency
+    yum: name={{item.name}} state=latest
+    with_items:
+        - { name: readline-devel }
+        - { name: pcre-devel }
+        - { name: openssl-devel }
+        - { name: gcc }
+        - { name: geoip-devel }
+  tasks:
+  - name: add nginx user
+    user: name={{nginx_user}}
+  - name: wget openresty
+    get_url: url=https://openresty.org/download/openresty-1.9.7.4.tar.gz dest=/usr/local/src/
+  - name: install openresty
+    script: files/openresty.sh
+      - install
+  - name: chown nginx owner
+    shell: chown -R nginx.nginx /usr/local/openresty
