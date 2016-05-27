@@ -1,0 +1,16 @@
+---
+- name: Extract archive
+  unarchive: src={{src_file}} dest={{dest_dir}}
+
+- name: Change ownership of Tomcat installation
+  file: path=/usr/local/tomcat7/ owner=root group=root state=directory recurse=yes
+
+- name: Install tomcat native
+  script: files/tomcat-native.sh
+
+- name: Configure Tomcat server
+  template: src=templates/server.xml dest=/usr/local/tomcat7/conf/
+  notify: restart tomcat
+
+- name: Install Tomcat init script
+  template: src=files/tomcat-initscript.sh dest=/etc/init.d/tomcat7 mode=0755
