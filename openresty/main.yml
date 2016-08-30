@@ -10,6 +10,7 @@
         - { name: openssl-devel }
         - { name: gcc }
         - { name: geoip-devel }
+        - { name: perl }
   tasks:
   - name: add nginx user
     user: name={{nginx_user}}
