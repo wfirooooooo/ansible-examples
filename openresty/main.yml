@@ -20,4 +20,4 @@
     script: files/openresty.sh
       - install
   - name: chown nginx owner
-    shell: chown -R nginx.nginx /usr/local/openresty
+    shell: chown -R {{nginx_user}}.{{nginx_user}} /usr/local/openresty
